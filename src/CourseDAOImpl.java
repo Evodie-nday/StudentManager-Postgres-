@@ -92,6 +92,19 @@ public class CourseDAOImpl implements GenericDAO<Course>{
     public void delete(Course course){
         String sql = "DELETE FROM courses WHERE id = ?";
 
+try(Connection conn = getConnection();
+PreparedStatement stmt = conn.prepareStatement(sql)){
 
+    stmt.setInt(1, course.getId());
+    int rowsAffected = stmt.executeUpdate();
+
+    if(rowsAffected > 0){
+        System.out.println("Course deleted");
+    } else{
+        System.out.println("No course found to delete.");
+    }
+} catch(SQLException e){
+    e.printStackTrace();
+}
     }
 }
